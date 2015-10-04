@@ -1,0 +1,23 @@
+{
+  "name": "libs-openudge-util",
+  "version": "1.0.0",
+  "homepage": "https://github.com/nalinc/libs-openudge-util",
+  "description": "Utilities and tools used in openudge",
+  "main": "",
+  "moduleType": [],
+  "keywords": [
+    "chat-plugin",
+    "openudge"
+  ],
+  "authors": [
+    "nalinc <nalin.chhibber@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
