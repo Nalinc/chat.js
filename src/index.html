@@ -4,24 +4,20 @@
 	<title></title>
 	<!-- build:less styles/custom.css -->
 	<link rel="stylesheet" type="text/less" media="screen" href="styles/style.less"/>
-	<link rel="stylesheet" type="text/less" media="screen" href="styles/animation.less"/>
 	<!-- endbuild -->
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.js"></script>
 	<script type="text/javascript" src="js/main.js"></script>
 
 </head>
 <body>
 
-	<h1 class="title">Material Design Chat</h1>
-	<div class="wrapper">
+	<div class="wrapper" id="wrapper">
 	  <nav id="nav" class="nav">
-	    <div class="default-nav">
+	    <div class="default-nav" id="default-nav">
 	      <div class="main-nav">
-	        <div class="toggle"></div>
-	        <div class="main-nav-item"><a href="#" class="main-nav-item-link">Blake</a></div>
-	        <div class="options"></div>
+
+	        <div class="options" id="nudge-options"></div>
 	      </div>
 	    </div>
 	  </nav>
@@ -33,5 +29,12 @@
 	    <div id="send" class="send"></div>
 	  </div>
 	</div>
+<script type="text/javascript">
+
+window.onload = function () {
+	nudgeMessenger.init()
+};	
+
+</script>
 </body>
 </html>
