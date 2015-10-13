@@ -2,39 +2,14 @@
 <html>
 <head>
 	<title></title>
-	<!-- build:less styles/custom.css -->
-	<link rel="stylesheet" type="text/less" media="screen" href="styles/style.less"/>
-	<!-- endbuild -->
-
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.5.3/less.js"></script>
-	<script type="text/javascript" src="js/main.js"></script>
-
+	<script type="text/javascript" src="src/main.js"></script>
 </head>
 <body>
 
-	<div class="wrapper" id="wrapper">
-	  <nav id="nav" class="nav">
-	    <div class="default-nav" id="default-nav">
-	      <div class="main-nav">
-
-	        <div class="options" id="nudge-options"></div>
-	      </div>
-	    </div>
-	  </nav>
-	  <div id="inner" class="inner">
-	    <div id="content" class="content"></div>
-	  </div>
-	  <div id="bottom" class="bottom">
-	    <textarea id="input" class="input"></textarea>
-	    <div id="send" class="send"></div>
-	  </div>
-	</div>
 <script type="text/javascript">
-
-window.onload = function () {
-	nudgeMessenger.init()
-};	
-
+	window.onload = function () {
+		nudgeMessenger.init()
+	};	
 </script>
 </body>
 </html>

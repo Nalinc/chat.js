@@ -4,7 +4,7 @@ var pkg = require('./package.json');
 var dist = pkg.micro.dist;
 var source = pkg.micro.source;
 
-var distapp = dist + "js/";
+var distapp = dist + "src/";
 var distbinary = dist + "bin/"
 
 var serverport = process.env.PORT || 8080;
@@ -70,7 +70,7 @@ module.exports = function (grunt) {
                     mainConfigFile: distapp + 'rconfig.js',
                     name: "main",
                     optimize: 'none',                  
-                    out: distbinary + 'libs-openudge-util.js',
+                    out: distbinary + 'nudge-messenger.js',
                     done: function (done, output) {
                         console.log('Done requirejs');
                         done();
@@ -92,33 +92,6 @@ module.exports = function (grunt) {
               roundingPrecision: -1
             }
           }
-        },
-        less:{
-            main :{
-                options: {
-                    compress: false
-                },
-                files:[{
-                        dest: dist + 'styles/style.css', 
-                        src : source + 'styles/style.less'
-                    }]
-                }
-        },
-        useminPrepare: {
-            html: source + 'index.html'
-        },
-        // Performs rewrites based on useminPrepare configuration
-        usemin: {
-            html: [dist + 'index.html'],
-            options: {
-                assetsDirs: [dist],
-                //We need to include build:less block in html to replace less with css files
-                blockReplacements: {
-                    less: function (block) {
-                        return '<link rel="stylesheet" href="' + block.dest + '" />';
-                    }
-                }
-            }
         },
         bower: {
             install: {
@@ -193,13 +166,10 @@ module.exports = function (grunt) {
         'clean:dist', 
         'copy:dist',       
         'requirejs',
-        'less', 
         'clean:tmp',
         'cleanempty',
         'uglify',
         'cssmin',
-        'useminPrepare',
-        'usemin',
     ]);
     
     grunt.registerTask('serve', function (target) {
