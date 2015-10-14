@@ -4,9 +4,6 @@ var pkg = require('./package.json');
 var dist = pkg.micro.dist;
 var source = pkg.micro.source;
 
-var distapp = dist + "src/";
-var distbinary = dist + "bin/"
-
 var serverport = process.env.PORT || 8080;
 
 module.exports = function (grunt) {
@@ -16,11 +13,11 @@ module.exports = function (grunt) {
         uglify: {
             main: {
                 expand: true,
-                cwd: distbinary,
+                cwd: dist,
                 src: [
                     '**/*.js'
                 ],
-                dest: distbinary,
+                dest: dist,
                 ext: '.min.js'
             }
         },
@@ -66,32 +63,16 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    baseUrl: distapp,
-                    mainConfigFile: distapp + 'rconfig.js',
-                    name: "main",
+                    baseUrl: source,
+                    name: "nudge-messenger",
                     optimize: 'none',                  
-                    out: distbinary + 'nudge-messenger.js',
+                    out: dist + 'nudge-messenger.js',
                     done: function (done, output) {
                         console.log('Done requirejs');
                         done();
                     }
                 }
             }
-        },
-        cssmin: {
-          target: {
-            files: [{
-              expand: true,
-              cwd: dist + 'styles',
-              src: ['*.css'],
-              dest: dist + 'styles',
-              ext: '.css'
-            }],
-            options: {
-              shorthandCompacting: false,
-              roundingPrecision: -1
-            }
-          }
         },
         bower: {
             install: {
@@ -107,13 +88,13 @@ module.exports = function (grunt) {
             },  
             dev: {
               options: {
-                script: source + 'app.js',
+                script: 'app.js',
                 node_env: 'dev'
               }
             },
             prod: {
               options: {
-                script: dist + 'app.js',
+                script: 'app.js',
                 node_env: 'prod'
               }
             }
@@ -131,7 +112,7 @@ module.exports = function (grunt) {
             }
         },
         cleanempty: {	   
-	    src: [distapp + '**/*'],
+	    src: [dist + '**/*'],
   	}
 
     });
@@ -164,12 +145,10 @@ module.exports = function (grunt) {
     grunt.registerTask('build', [ 
         'bower:install', 
         'clean:dist', 
-        'copy:dist',       
         'requirejs',
         'clean:tmp',
         'cleanempty',
         'uglify',
-        'cssmin',
     ]);
     
     grunt.registerTask('serve', function (target) {

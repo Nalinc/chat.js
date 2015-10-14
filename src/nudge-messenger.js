@@ -171,6 +171,7 @@
       // create and append warpper div to body
       var wrapperDiv = document.createElement('div');
       wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper';
+
         /*--Now create and append nav to wrapperDiv--*/
         var nav = document.createElement('nav');
         nav.id = 'nav'; nav.className = 'nav';
@@ -183,6 +184,9 @@
               // Now create and append nudge_optionsDiv to main_navDiv
               var nudge_optionsDiv = document.createElement('div');
               nudge_optionsDiv.id='nudgeOptions'; nudge_optionsDiv.className='nudgeOptions';
+              nudge_optionsDiv.setAttribute('data-intro', 'Click here to minimize nudge-messenger');
+              nudge_optionsDiv.setAttribute('data-position', 'right');
+
               main_navDiv.appendChild(nudge_optionsDiv);
             default_navDiv.appendChild(main_navDiv)  
           nav.appendChild(default_navDiv)
@@ -190,6 +194,9 @@
         /*--now create and append innerDiv to wrapperDiv--*/
         var innerDiv = document.createElement('div');
         innerDiv.id='inner';  innerDiv.className='inner';
+        innerDiv.setAttribute('data-intro', 'chat panal');
+        innerDiv.setAttribute('data-position', 'left');
+
           //Now create and append contentDiv to innerDiv
           var contentDiv = document.createElement('div');
           contentDiv.id='content'; contentDiv.className='content';
@@ -201,10 +208,16 @@
           //Now create and append textarea to bottomDiv
           var textarea =  document.createElement('textarea');
           textarea.id='input'; textarea.className='input';
+          textarea.setAttribute('data-intro', 'Type your text here');
+          textarea.setAttribute('data-position', 'left');
+
           bottomDiv.appendChild(textarea);
           //Now create and append sendDiv to bottomDiv
           var sendDiv =  document.createElement('div');
           sendDiv.id='send'; sendDiv.className='send';
+          sendDiv.setAttribute('data-intro', 'Send your messages from here');
+          sendDiv.setAttribute('data-position', 'right');
+
           bottomDiv.appendChild(sendDiv);
         wrapperDiv.appendChild(bottomDiv)
       document.getElementsByTagName('body')[0].appendChild(wrapperDiv);
@@ -229,7 +242,7 @@
                                           background-color: #fff;\
                                           position: fixed;\
                                           bottom: 10px;\
-                                          right: -100px;\
+                                          left: 50%;\
                                           transform: translateX(-50%);\
                                           box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .5);\
                                           transition: .3s ease}',
