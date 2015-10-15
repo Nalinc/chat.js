@@ -1,2 +1,2 @@
-# libs-openudge-util
-Utilities and tools used by openudge
+# chat.js
+Simple chat plugin for your web-apps.

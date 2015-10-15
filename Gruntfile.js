@@ -4,7 +4,7 @@ var pkg = require('./package.json');
 var dist = pkg.micro.dist;
 var source = pkg.micro.source;
 
-var serverport = process.env.PORT || 8080;
+var serverport = process.env.PORT || 5000;
 
 module.exports = function (grunt) {
 
@@ -64,9 +64,9 @@ module.exports = function (grunt) {
             compile: {
                 options: {
                     baseUrl: source,
-                    name: "nudge-messenger",
+                    name: "chat",
                     optimize: 'none',                  
-                    out: dist + 'nudge-messenger.js',
+                    out: dist + 'chat.js',
                     done: function (done, output) {
                         console.log('Done requirejs');
                         done();
@@ -119,18 +119,14 @@ module.exports = function (grunt) {
 
     //Load grunt Tasks
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-express-server');  
-    grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-usemin');  
     grunt.loadNpmTasks('grunt-cleanempty');
     grunt.loadNpmTasks('grunt-bower-task');
     
     grunt.registerTask('express-keepalive', 'Keep grunt running', function(target) {
-        var message = 'libs-openudge-util is running on http://localhost:' + serverport; 
+        var message = 'chat.js is running on http://localhost:' + serverport; 
         if (target == "dev") {
             message += " in development mode";
         } else {

@@ -90,7 +90,6 @@
           overlay_layer.setAttribute("style", styleText);
         } else {
           element_position = this._get_offset(this.$el.get()[0]);
-          console.log(element_position)
           if (element_position) {
             styleText += "width: " + element_position.width + "px; height:" + element_position.height + "px; top:" + element_position.top + "px;left: " + element_position.left + "px;";
             overlay_layer.setAttribute("style", styleText);
@@ -195,11 +194,10 @@
         };
         _x = 0;
         _y = 0;
-        while (element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
-          _x += element.offsetLeft;
-          _y += element.offsetTop;
-          element = element.offsetParent;
-        }
+          var clientRect =  element.getBoundingClientRect();
+          _x += clientRect.left;
+          _y += clientRect.top;
+
         element_position.top = _y;
         element_position.left = _x;
         return element_position;

@@ -1,18 +1,18 @@
 {
-  "name": "libs-openudge-util",
+  "name": "chat.js",
   "micro": {
     "dist": "dist/",
     "source": "src/"
   },
   "version": "1.0.0",
-  "description": "Utilities and tools used in openudge",
+  "description": "Simple chat plugin for your web-apps",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nalinc/libs-openudge-util.git"
+    "url": "https://github.com/nalinc/chat.js.git"
   },
   "keywords": [
     "chat-plugin",
@@ -21,10 +21,11 @@
   "author": "nalinc <nalin.chhibber@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nalinc/libs-openudge-util/issues"
+    "url": "https://github.com/nalinc/chat.js/issues"
   },
-  "homepage": "https://github.com/nalinc/libs-openudge-util",
+  "homepage": "https://github.com/nalinc/chat.js",
   "devDependencies": {
+    "express":"^4.11.2",
     "grunt": "^0.4.5",
     "grunt-bower-task": "^0.4.0",
     "grunt-cleanempty": "^1.0.3",
