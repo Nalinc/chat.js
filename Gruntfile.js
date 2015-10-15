@@ -60,19 +60,22 @@ module.exports = function (grunt) {
             }     
             
         },
-        requirejs: {
-            compile: {
-                options: {
-                    baseUrl: source,
-                    name: "chat",
-                    optimize: 'none',                  
-                    out: dist + 'chat.js',
-                    done: function (done, output) {
-                        console.log('Done requirejs');
-                        done();
-                    }
-                }
-            }
+        copy: {           
+            dist: {
+                files: [
+                        {
+                            expand: true,
+                            cwd: source,
+                            src: [
+                          '**/*',
+                                '!**/*.less'
+                            ],
+                            dest: dist
+                        }
+                ]
+                
+            }     
+            
         },
         bower: {
             install: {
@@ -119,6 +122,7 @@ module.exports = function (grunt) {
 
     //Load grunt Tasks
     grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-express-server');  
@@ -140,8 +144,8 @@ module.exports = function (grunt) {
     //Default grunt task
     grunt.registerTask('build', [ 
         'bower:install', 
-        'clean:dist', 
-        'requirejs',
+        'clean:dist',
+        'copy:dist', 
         'clean:tmp',
         'cleanempty',
         'uglify',

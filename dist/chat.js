@@ -607,5 +607,3 @@
   }
 
 }).call(this);
-define("chat", function(){});
-
