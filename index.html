@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="https://rawgit.com/Nalinc/chat.js/master/dist/chat.js"></script>
+	<script type="text/javascript" src="scripts/chardinjs.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="styles/chardinjs.css">
+
+	<style type="text/css">
+	.chatlogo{
+		text-align:center;
+		font-size: 100px;
+	  	font-family: Montserrat, sans-serif;
+	  	line-height: 1;
+	  	color: #444444;
+	}
+	.lead{
+		text-align:center;
+		font-size: 24px;
+	  	line-height: 1.25;
+	}
+	.lang{
+		color:red;
+		font-weight: bold;	
+	}
+	.credits{
+		position:fixed;
+		bottom:100px;
+		margin: 5% auto;
+		text-align: center;
+		width:100%;
+	}
+	</style>	
+
+</head>
+<body>
+<a href="https://github.com/nalinc/chat.js"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+<h1 class="chatlogo">{ chat.js }</h1>
+<p class="lead">
+    Simple chat plugin for your web-apps.
+</p>
+<div class="credits">
+	Baked with <b>&lt;3</b> in <span class="lang">javascript</span>
+</div>
+<script type="text/javascript">
+	window.onload = function () {
+		chatMessenger.init()
+	    $('#wrapper').addClass('minified-wrapper');
+        $('#default-nav').addClass('minified-nav');
+		$('#nav').on('click',function(e){
+			if(!$('#wrapper').hasClass('minified-wrapper')){
+				setTimeout(function(){
+					$('body').chardinJs('start');
+				},1000)				
+			}
+        });
+	};	
+</script>
+
+</body>
+</html>
