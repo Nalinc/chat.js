@@ -3,7 +3,7 @@
 <head>
 	<title></title>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="https://rawgit.com/Nalinc/chat.js/master/dist/chat.js"></script>
+	<script type="text/javascript" src="../src/chat.js"></script>
 	<script type="text/javascript" src="scripts/chardinjs.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles/chardinjs.css">
 
@@ -46,11 +46,18 @@
 <script type="text/javascript">
 	window.onload = function () {
 		chatMessenger.init()
-		$('body').chardinJs('start')
-		$('body').on('chardinJs:stop', function() {
-		    $('#wrapper').addClass('minified-wrapper');
-            $('#default-nav').addClass('minified-nav');
-		});
+
+	    $('#wrapper').addClass('minified-wrapper');
+        $('#default-nav').addClass('minified-nav');
+		var flag = true;
+		$('#nav').on('click',function(e){
+			if(flag){
+				setTimeout(function(){
+					$('body').chardinJs('start');
+					flag = false;
+				},1000)				
+			}
+        });
 	};	
 </script>
 

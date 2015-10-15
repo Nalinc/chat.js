@@ -224,17 +224,17 @@
   }
   addStyleSheets = function(){
 
-      //array containg nudge styles
-      var nudgeStyles = ['.minified-wrapper{\
+      //string containg nudge styles
+      var nudgeStyles = '.minified-wrapper{\
                                           right:10px!important;\
                                           width: 60px!important;\
                                           height: 60px!important;\
-                                          border-radius: 50px!important}',
+                                          border-radius: 50px!important}' + 
                           '.bottom .input:focus,.bottom .send:focus {\
-                                            outline: 0;}',
-                          '*{ box-sizing: border-box }',
+                                            outline: 0;}' + 
+                          '*{ box-sizing: border-box }' + 
                           '.bottom .send:hover,.nav .default-nav .main-nav .options:hover,.nav .default-nav .main-nav .toggle:hover{\
-                                            cursor: pointer;}',
+                                            cursor: pointer;}' + 
                           '.wrapper{\
                                           height: 520px;\
                                           width: 320px;\
@@ -245,23 +245,23 @@
                                           left: 50%;\
                                           transform: translateX(-50%);\
                                           box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .5);\
-                                          transition: .3s ease}',
+                                          transition: .3s ease}' + 
                           '.wrapper .inner {\
                                           height: 520px;\
                                           padding-top: 64px;\
                                           overflow:auto;\
                                           background: #f2f2f2;\
                                           -ms-overflow-style: none;\
-                                          overflow: -moz-scrollbars-none}',                
+                                          overflow: -moz-scrollbars-none}' +                 
                           '.nav .default-nav,.nav .default-nav .main-nav {\
                                           left: 0;\
                                           width: 100%;height: 64px;\
                                           transition: .3s ease;\
-                                          top: 0}',
+                                          top: 0}' + 
                           '.wrapper .inner .content {\
                                           padding: 10.66666667px;\
                                           position: relative;\
-                                          margin-bottom: 42px}',
+                                          margin-bottom: 42px}' + 
                           '.nav {\
                                           position: fixed;\
                                           top: 0;\
@@ -269,9 +269,9 @@
                                           right: 0;\
                                           height: 64px;\
                                           z-index: 100;\
-                                          transition: .3s ease}',
+                                          transition: .3s ease}' + 
                           '.nav .minified-nav {\
-                                          border-radius: 50px}',
+                                          border-radius: 50px}' + 
                           '.nav .default-nav {\
                                           position: absolute;\
                                           z-index: 110;\
@@ -280,12 +280,12 @@
                                           color: #fff;\
                                           -webkit-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
                                           -moz-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
-                                          box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1)}',
+                                          box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1)}' + 
                           '.nav .default-nav .main-nav {\
                                           position: absolute;\
                                           margin: 0;\
                                           padding: 0;\
-                                          list-style: none}',
+                                          list-style: none}' + 
                           '.nudgeOptions {\
                                           width: 25px;\
                                           height: 20px;\
@@ -296,25 +296,25 @@
                                           top:5px;\
                                           margin-right: 0.3em;\
                                           border-top: 0.2em solid #fff;\
-                                          border-bottom: 0.2em solid #fff;}',
+                                          border-bottom: 0.2em solid #fff;}' + 
                           '.nudgeOptions:before {\
                                           content: "";\
                                           position: absolute;\
                                           top: 0.3em;\
                                           left: 0px;\
                                           width: 100%;\
-                                          border-top: 0.2em solid #fff;}',
+                                          border-top: 0.2em solid #fff;}' + 
                           '.bottom,.bottom .input {\
                                         height: 64px;\
                                         background: #fff;\
-                                        left: 0}',
+                                        left: 0}' + 
                           '.nav .default-nav .main-nav .main-nav-item {\
                                         float: left;\
                                         height: 64px;\
                                         margin-right: 50px;\
                                         position: relative;\
                                         line-height: 64px;\
-                                        transition: .3s ease}',
+                                        transition: .3s ease}' + 
                           '.nav .default-nav .main-nav .main-nav-item .main-nav-item-link {\
                                         display: block;\
                                         position: relative;\
@@ -324,11 +324,11 @@
                                         line-height: 64px;\
                                         text-decoration: none;\
                                         color: inherit;\
-                                        transition: .3s ease}',
+                                        transition: .3s ease}' + 
                           '.bottom {\
                                         position: fixed;\
                                         bottom: 0;\
-                                        right: 0}',
+                                        right: 0}' + 
                           '.bottom .input {\
                                         border: none;\
                                         width: 80%;\
@@ -339,7 +339,7 @@
                                         padding-top: 24px;\
                                         font-weight: 300;\
                                         -ms-overflow-style: none;\
-                                        overflow: -moz-scrollbars-none}',
+                                        overflow: -moz-scrollbars-none}' + 
                           '.bottom .send {\
                                       position: fixed;\
                                       height: 42.66666667px;\
@@ -349,7 +349,7 @@
                                       background: #f44336;\
                                       color: #fff;\
                                       bottom: 10.66666667px;\
-                                      right: 10.66666667px}',
+                                      right: 10.66666667px}' + 
                           '.bottom .send:before {\
                                       content: "";\
                                       background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/104946/ic_send_white_48dp.png) center center no-repeat;\
@@ -358,17 +358,17 @@
                                       top: 0;\
                                       left: 0;\
                                       right: 0;\
-                                      bottom: 0}',
+                                      bottom: 0}' + 
                           '.message-wrapper {\
                                       position: relative;\
                                       overflow: hidden;\
                                       width: 100%;\
                                       margin: 10.66666667px 0;\
-                                      padding: 10.66666667px 0}',
+                                      padding: 10.66666667px 0}' + 
                           '.message-wrapper .circle-wrapper {\
                                       height: 42.66666667px;\
                                       width: 42.66666667px;\
-                                      border-radius: 50%}',
+                                      border-radius: 50%}' + 
                           '.message-wrapper .text-wrapper {\
                                       padding: 10.66666667px;\
                                       min-height: 42.66666667px;\
@@ -378,82 +378,53 @@
                                       border-radius: 2px;\
                                       font-weight: 300;\
                                       position: relative;\
-                                      opacity: 0}',
+                                      opacity: 0}' + 
                           '.message-wrapper .text-wrapper:before {\
                                       content: "";\
                                       width: 0;\
                                       height: 0;\
-                                      border-style: solid}',
+                                      border-style: solid}' + 
                           '.message-wrapper.them .circle-wrapper,.message-wrapper.them .text-wrapper {\
                                       background: #f44336;\
                                       float: left;\
-                                      color: #fff}',
+                                      color: #fff}' + 
                           '.message-wrapper.them .text-wrapper:before {\
                                       border-width: 0 10px 10px 0;\
                                       border-color: transparent #f44336 transparent transparent;\
                                       position: absolute;\
                                       top: 0;\
-                                      left: -9px}',
+                                      left: -9px}' + 
                           '.message-wrapper.me .circle-wrapper,.message-wrapper.me .text-wrapper {\
                                       background: #ff5722;\
                                       float: right;\
-                                      color: #333}',
+                                      color: #333}' + 
                           '.message-wrapper.me .text-wrapper {\
                                       background: #fff !important;\
-                                      word-wrap: break-word;}',
+                                      word-wrap: break-word;}' + 
                           '.message-wrapper.me .text-wrapper:before {\
                                       border-width: 10px 10px 0 0;\
                                       border-color: #fff transparent transparent;\
                                       position: absolute;\
                                       top: 0;\
-                                      right: -9px}',
+                                      right: -9px}' + 
                           '.animated {\
                                       -webkit-animation-duration: 1s;\
                                       animation-duration: 1s;\
                                       -webkit-animation-fill-mode: both;\
-                                      animation-fill-mode: both}',
+                                      animation-fill-mode: both}' + 
                           '.fadeIn {\
                                       -webkit-animation-name: fadeIn;\
-                                      animation-name: fadeIn}',
+                                      animation-name: fadeIn}' + 
+                          '@-webkit-keyframes fadeIn {0% {  opacity: 0 } 100% { opacity: 1 }}'+
+                          '.wrapper .inner::-webkit-scrollbar { width: 0!important}' +
+                          '.bottom .input::-webkit-scrollbar { width: 0!important}'+
+                          '@keyframes fadeIn { 0% {  opacity: 0 } 100% {  opacity: 1 }}';
 
-                          '@keyframes fadeIn {\
-                                      0% {  opacity: 0 }\
-                                      100% {  opacity: 1 }}'            
-
-                          ]; 
-      /*
-        @media (max-width: 560px) {
-            .wrapper {
-                width: 100%;
-                height: 100%;
-                height: 100vh;
-                top: 0;
-                left: 0;
-                transform: translateX(0)
-            }
-            .wrapper .inner {
-                height: 100%;
-                height: 100vh
-            }
-        }
-      */
-
-      //if there's no style tag or external stylesheet attached, create one
-      if(document.styleSheets.length == 0){
-        var style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML =  '@-webkit-keyframes fadeIn {0% {  opacity: 0 } 100% { opacity: 1 }}'+
-                           ' .wrapper .inner::-webkit-scrollbar { width: 0!important}' +
-                           '.bottom .input::-webkit-scrollbar { width: 0!important}';
-
-
-        document.getElementsByTagName('head')[0].appendChild(style);        
-      }
-
-      for(var i=0; i<nudgeStyles.length;i++){
-        document.styleSheets[0].insertRule(nudgeStyles[i],0);
-      }
-      
+      //create separate style tag for browser specific behaviour
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML =  nudgeStyles
+      document.getElementsByTagName('head')[0].appendChild(style);        
   }
 
   var selected = null, // Object of the element to be moved
@@ -495,11 +466,13 @@
               addStyleSheets();
 
               // Bind the functions...
-/*              document.getElementById('wrapper').onmousedown = function () {
+              /*
+              document.getElementById('wrapper').onmousedown = function () {
                   _drag_init(this);
                   return false;
               };
-*/
+              */
+
               var messenger = new chat_messenger.Messenger();
               var buildHTML = new chat_messenger.BuildHTML();
 
@@ -529,7 +502,7 @@
               function buildSent(message) {
                 console.log('sending: ', message.text);
 
-              content.appendChild(buildHTML.me(message.text))
+                content.appendChild(buildHTML.me(message.text))
                 safeText(message.text);
                 animateText();
 
