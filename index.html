@@ -31,6 +31,20 @@
 		text-align: center;
 		width:100%;
 	}
+	#gotchya{
+		text-align: center;
+		width:100px;
+		height:40px;
+		float:none;
+		margin:0 auto;
+		background-color:#b7170b;
+		font-weight: bold;
+		cursor: pointer;
+		padding:10px;
+		border-radius:10px;
+		display: none;
+	}
+
 	</style>	
 
 </head>
@@ -40,21 +54,48 @@
 <p class="lead">
     Simple chat plugin for your web-apps.
 </p>
+
+<div id="gotchya" class="chardinjs-show-element chardinjs-relative-position">Got it</div>
 <div class="credits">
 	Baked with <b>&lt;3</b> in <span class="lang">javascript</span>
 </div>
 <script type="text/javascript">
 	window.onload = function () {
-		chatMessenger.init()
+		var chat = chatMessenger.init()
+
 	    $('#wrapper').addClass('minified-wrapper');
         $('#default-nav').addClass('minified-nav');
+
+		var flag = true;
 		$('#nav').on('click',function(e){
-			if(!$('#wrapper').hasClass('minified-wrapper')){
+			if(flag){
+
 				setTimeout(function(){
 					$('body').chardinJs('start');
+					$('#gotchya').show();
+					flag = false;
 				},1000)				
+
+	            setTimeout(function () {
+	               chat.recieve('Hello there!');
+	            }, 1500);
+
+	            setTimeout(function () {
+	               chat.recieve('Do you like this? If so check out more on my page...');
+	            }, 5000);
+
+	            setTimeout(function () {
+	               chat.recieve('Or maybe just give it a like!');
+	            }, 7500);
+
 			}
         });
+		
+		$('#gotchya').on('click',function(){
+			 $('body').data('chardinJs').toggle();
+			 $('#gotchya').hide();
+		})
+        
 	};	
 </script>
 
