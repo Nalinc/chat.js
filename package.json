@@ -37,8 +37,5 @@
     "grunt-contrib-uglify": "^0.9.2",
     "grunt-express-server": "^0.5.1",
     "grunt-usemin": "^3.1.1"
-  },
-  "dependencies": {
-    "grunt-contrib-copy": "^0.8.1"
   }
 }

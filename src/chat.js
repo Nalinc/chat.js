@@ -19,17 +19,87 @@
                 defineProperties(Constructor, staticProps); 
               return Constructor; 
           }; 
-      })();
+  })();
 
   function _classCallCheck(instance, Constructor) { 
       if (!(instance instanceof Constructor)) { 
         throw new TypeError('Cannot call a class as a function'); 
       } 
     }
+  
+  BuildHTML = (function () {
+    function BuildHTML() {
+      _classCallCheck(this, BuildHTML);
+
+      this.messageWrapper = 'message-wrapper';
+      this.circleWrapper = 'circle-wrapper';
+      this.textWrapper = 'text-wrapper';
+
+      this.meClass = 'me';
+      this.themClass = 'them';
+    }
+
+    _createClass(BuildHTML, [{
+      key: '_build',
+      value: function _build(text, who) {
+        var node = document.createElement("div");
+        node.className= this.messageWrapper + ' ' + this[who + 'Class']
+        node.innerHTML =  '<div class="' + this.circleWrapper + ' animated bounceIn"></div>\n              <div class="' + this.textWrapper + '">...</div>';
+        return node;
+      }
+    }, {
+      key: 'me',
+      value: function me(text) {
+        return this._build(text, 'me');
+      }
+    }, {
+      key: 'them',
+      value: function them(text) {
+        return this._build(text, 'them');
+      }
+    }]);
+
+    return BuildHTML;
+  })();
+
+  function safeText(content, text) {
+    var ele = content.querySelector('.message-wrapper:last-child').querySelector('.text-wrapper');
+    ele.innerHTML = text;
+  }
+
+  function animateText(content) {
+    setTimeout(function () {
+      var ele = content.querySelector('.message-wrapper:last-child').querySelector('.text-wrapper');
+      ele.className += ' animated fadeIn ';
+    }, 150);
+  }
+
+  function scrollBottom(inner) {
+    inner.scrollTop = inner.scrollHeight;
+  }
+  
+  function sendMessage(input) {
+    var text = input.value;
+    window.messenger.send(text);
+
+    input.value = '';
+    input.focus();
+  }  
 
   Messenger = (function () {
     function Messenger() {
       _classCallCheck(this, Messenger);
+
+      var input = document.getElementById("input");
+      var send = document.getElementById("send");
+      var content = document.getElementById("content");
+      var inner = document.getElementById("inner");
+      var options = document.getElementById("nudgeOptions");
+      var nav = document.getElementById("nav");
+
+      var buildHTML = new BuildHTML();
+
+      input.focus();
 
       this.messageList = [];
       this.deletedList = [];
@@ -38,14 +108,48 @@
       this.them = 5; // and another one
 
       this.onRecieve = function (message) {
+        console.log('recieving: ', message.text);
+
+        content.appendChild(buildHTML.them(message.text))
+        safeText(content, message.text);
+        animateText(content);
+
+        scrollBottom(inner);
         return console.log('Recieved: ' + message.text);
       };
       this.onSend = function (message) {
+        console.log('sending: ', message.text);
+
+        content.appendChild(buildHTML.me(message.text))
+        safeText(content, message.text);
+        animateText(content);
+
+        scrollBottom(inner);
         return console.log('Sent: ' + message.text);
       };
       this.onDelete = function (message) {
         return console.log('Deleted: ' + message.text);
       };
+
+      send.addEventListener('click', function (e) {
+        sendMessage(input);
+      });
+      nav.addEventListener('click',function(e){
+        document.getElementById('wrapper').classList.toggle('minified-wrapper');
+        document.getElementById('default-nav').classList.toggle('minified-nav');                
+      })
+
+      input.addEventListener('keydown', function(e) {
+        var key = e.which || e.keyCode;
+
+        if (key === 13) {
+          // enter key
+          e.preventDefault();
+
+          sendMessage(input);
+        }
+     });   
+
     }
 
     _createClass(Messenger, [{
@@ -112,40 +216,6 @@
     return Messenger;
   })();
 
-  BuildHTML = (function () {
-    function BuildHTML() {
-      _classCallCheck(this, BuildHTML);
-
-      this.messageWrapper = 'message-wrapper';
-      this.circleWrapper = 'circle-wrapper';
-      this.textWrapper = 'text-wrapper';
-
-      this.meClass = 'me';
-      this.themClass = 'them';
-    }
-
-    _createClass(BuildHTML, [{
-      key: '_build',
-      value: function _build(text, who) {
-        var node = document.createElement("div");
-        node.className= this.messageWrapper + ' ' + this[who + 'Class']
-        node.innerHTML =  '<div class="' + this.circleWrapper + ' animated bounceIn"></div>\n              <div class="' + this.textWrapper + '">...</div>';
-        return node;
-      }
-    }, {
-      key: 'me',
-      value: function me(text) {
-        return this._build(text, 'me');
-      }
-    }, {
-      key: 'them',
-      value: function them(text) {
-        return this._build(text, 'them');
-      }
-    }]);
-
-    return BuildHTML;
-  })();
 
   createDOMstructure =function(){
     /*
@@ -275,8 +345,8 @@
                           '.nav .default-nav {\
                                           position: absolute;\
                                           z-index: 110;\
-                                          background-color: #f44336;\
-                                          border-bottom: 3px solid #ea1c0d;\
+                                          background-color: #b7170b;\
+                                          border-bottom: 3px solid #b7170b;\
                                           color: #fff;\
                                           -webkit-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
                                           -moz-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
@@ -346,7 +416,7 @@
                                       width: 42.66666667px;\
                                       border-radius: 50%;\
                                       border: 0;\
-                                      background: #f44336;\
+                                      background: #b7170b;\
                                       color: #fff;\
                                       bottom: 10.66666667px;\
                                       right: 10.66666667px}' + 
@@ -385,12 +455,12 @@
                                       height: 0;\
                                       border-style: solid}' + 
                           '.message-wrapper.them .circle-wrapper,.message-wrapper.them .text-wrapper {\
-                                      background: #f44336;\
+                                      background: #b7170b;\
                                       float: left;\
                                       color: #fff}' + 
                           '.message-wrapper.them .text-wrapper:before {\
                                       border-width: 0 10px 10px 0;\
-                                      border-color: transparent #f44336 transparent transparent;\
+                                      border-color: transparent #b7170b transparent transparent;\
                                       position: absolute;\
                                       top: 0;\
                                       left: -9px}' + 
@@ -454,114 +524,23 @@
       selected = null;
   }
 
-
-
   document.onmousemove = _move_elem;
   document.onmouseup = _destroy;
 
-
   init = function(){
 
-              createDOMstructure();
-              addStyleSheets();
+      createDOMstructure();
+      addStyleSheets();
 
-              // Bind the functions...
-              /*
-              document.getElementById('wrapper').onmousedown = function () {
-                  _drag_init(this);
-                  return false;
-              };
-              */
+      /*// Bind the function for drag and drop  --buggy
+      document.getElementById('wrapper').onmousedown = function () {
+          _drag_init(this);
+          return false;
+      };
+      */
+      window.messenger = new chat_messenger.Messenger();
 
-              var messenger = new chat_messenger.Messenger();
-              var buildHTML = new chat_messenger.BuildHTML();
-
-              var input = document.getElementById("input");
-              var send = document.getElementById("send");
-              var content = document.getElementById("content");
-              var inner = document.getElementById("inner");
-              var options = document.getElementById("nudgeOptions");
-              var nav = document.getElementById("nav");
-
-              function safeText(text) {
-                var ele = content.querySelector('.message-wrapper:last-child').querySelector('.text-wrapper');
-                ele.innerHTML = text;
-              }
-
-              function animateText() {
-                setTimeout(function () {
-                  var ele = content.querySelector('.message-wrapper:last-child').querySelector('.text-wrapper');
-                  ele.className += ' animated fadeIn ';
-                }, 350);
-              }
-
-              function scrollBottom() {
-                inner.scrollTop = inner.scrollHeight;
-              }
-
-              function buildSent(message) {
-                console.log('sending: ', message.text);
-
-                content.appendChild(buildHTML.me(message.text))
-                safeText(message.text);
-                animateText();
-
-                scrollBottom();
-              }
-
-              function buildRecieved(message) {
-                console.log('recieving: ', message.text);
-
-                content.appendChild(buildHTML.them(message.text))
-                safeText(message.text);
-                animateText();
-
-                scrollBottom();
-              }
-
-              function sendMessage() {
-                var text = input.value;
-                messenger.send(text);
-
-                input.value = '';
-                input.focus();
-              }
-
-              messenger.onSend = buildSent;
-              messenger.onRecieve = buildRecieved;
-
-              setTimeout(function () {
-                messenger.recieve('Hello there!');
-              }, 1500);
-
-              setTimeout(function () {
-                messenger.recieve('Do you like this? If so check out more on my page...');
-              }, 5000);
-
-              setTimeout(function () {
-                messenger.recieve('Or maybe just give it a like!');
-              }, 7500);
-
-              input.focus();
-
-              send.addEventListener('click', function (e) {
-                sendMessage();
-              });
-              nav.addEventListener('click',function(e){
-                document.getElementById('wrapper').classList.toggle('minified-wrapper');
-                document.getElementById('default-nav').classList.toggle('minified-nav');                
-              })
-
-              input.addEventListener('keydown', function(e) {
-                var key = e.which || e.keyCode;
-
-                if (key === 13) {
-                  // enter key
-                  e.preventDefault();
-
-                  sendMessage();
-                }
-             });    
+      return messenger;
   }
 
   var chat_messenger = {
