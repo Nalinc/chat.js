@@ -44,7 +44,6 @@
 		border-radius:10px;
 		display: none;
 	}
-
 	</style>	
 
 </head>
@@ -63,8 +62,7 @@
 	window.onload = function () {
 		var chat = chatMessenger.init()
 
-	    $('#wrapper').addClass('minified-wrapper');
-        $('#default-nav').addClass('minified-nav');
+		chatMessenger.minify();
 
 		var flag = true;
 		$('#nav').on('click',function(e){

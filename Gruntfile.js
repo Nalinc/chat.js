@@ -26,21 +26,6 @@ module.exports = function (grunt) {
                 src: [
                     dist
                 ]
-            },
-            tmp: {                               
-                files: [
-                        {
-                            expand: true,
-                            cwd: dist,
-                            src: [
-                                'app.config.js',
-                                'app/**/*.js',
-                                'app/**/*.tpl.html',
-                                '!app/main.js',
-                                '!app/rconfig.js'
-                            ]
-                        }
-                ]    
             }
         },
         copy: {           
@@ -76,14 +61,6 @@ module.exports = function (grunt) {
                 
             }     
             
-        },
-        bower: {
-            install: {
-              options: { 
-                verbose: true,
-                copy:false
-              }             
-            }
         },
         express: { 
             options: {
@@ -106,12 +83,6 @@ module.exports = function (grunt) {
             less:{
               src: [dist + 'index.html'],
               overwrite : true,
-              replacements: [
-                {
-                  from: '<script src="bower_components/less/dist/less.min.js"></script>',
-                  to: ''
-                }
-              ]
             }
         },
         cleanempty: {	   
@@ -124,10 +95,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-express-server');  
     grunt.loadNpmTasks('grunt-cleanempty');
-    grunt.loadNpmTasks('grunt-bower-task');
     
     grunt.registerTask('express-keepalive', 'Keep grunt running', function(target) {
         var message = 'chat.js is running on http://localhost:' + serverport; 
@@ -143,10 +112,8 @@ module.exports = function (grunt) {
 
     //Default grunt task
     grunt.registerTask('build', [ 
-        'bower:install', 
         'clean:dist',
         'copy:dist', 
-        'clean:tmp',
         'cleanempty',
         'uglify',
     ]);
@@ -154,7 +121,6 @@ module.exports = function (grunt) {
     grunt.registerTask('serve', function (target) {
         if (target === 'dev') {
             return grunt.task.run([ 
-                'bower:install',                             
                 'express:dev',
                 'express-keepalive:dev'
             ]);

@@ -1,13 +1,13 @@
 {
-  "name": "libs-openudge-util",
+  "name": "chatjs",
   "version": "1.0.0",
-  "homepage": "https://github.com/nalinc/libs-openudge-util",
-  "description": "Utilities and tools used in openudge",
+  "homepage": "https://github.com/nalinc/chat.js",
+  "description": "Simple chat plugin for your web-apps",
   "main": "",
   "moduleType": [],
   "keywords": [
     "chat-plugin",
-    "openudge"
+    "chatjs"
   ],
   "authors": [
     "nalinc <nalin.chhibber@gmail.com>"

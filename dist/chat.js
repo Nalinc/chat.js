@@ -94,7 +94,7 @@
       var send = document.getElementById("send");
       var content = document.getElementById("content");
       var inner = document.getElementById("inner");
-      var options = document.getElementById("nudgeOptions");
+      var options = document.getElementById("chatjsicon");
       var nav = document.getElementById("nav");
 
       var buildHTML = new BuildHTML();
@@ -218,30 +218,11 @@
 
 
   createDOMstructure =function(){
-    /*
-      <!-- this is what it creates -->
-      <div class="wrapper" id="wrapper">
-        <nav id="nav" class="nav">
-          <div class="default-nav" id="default-nav">
-            <div class="main-nav">
-              <div class="nudgeOptions" id="nudgeOptions"></div>
-            </div>
-          </div>
-        </nav>
-        <div id="inner" class="inner">
-          <div id="content" class="content"></div>
-        </div>
-        <div id="bottom" class="bottom">
-          <textarea id="input" class="input"></textarea>
-          <div id="send" class="send"></div>
-        </div>
-      </div>
-     */
-
       // create and append warpper div to body
       var wrapperDiv = document.createElement('div');
       wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper';
-
+      wrapperDiv.setAttribute('data-intro', 'Collaspable box');
+      wrapperDiv.setAttribute('data-position', 'left');
         /*--Now create and append nav to wrapperDiv--*/
         var nav = document.createElement('nav');
         nav.id = 'nav'; nav.className = 'nav';
@@ -253,9 +234,7 @@
             main_navDiv.className='main-nav';
               // Now create and append nudge_optionsDiv to main_navDiv
               var nudge_optionsDiv = document.createElement('div');
-              nudge_optionsDiv.id='nudgeOptions'; nudge_optionsDiv.className='nudgeOptions';
-              nudge_optionsDiv.setAttribute('data-intro', 'Options');
-              nudge_optionsDiv.setAttribute('data-position', 'top');
+              nudge_optionsDiv.id='chatjsicon'; nudge_optionsDiv.className='chatjsicon chatjsi';
 
               main_navDiv.appendChild(nudge_optionsDiv);
             default_navDiv.appendChild(main_navDiv)  
@@ -264,8 +243,6 @@
         /*--now create and append innerDiv to wrapperDiv--*/
         var innerDiv = document.createElement('div');
         innerDiv.id='inner';  innerDiv.className='inner';
-        innerDiv.setAttribute('data-intro', 'Collaspable box');
-        innerDiv.setAttribute('data-position', 'left');
 
           //Now create and append contentDiv to innerDiv
           var contentDiv = document.createElement('div');
@@ -313,12 +290,14 @@
                                           position: fixed;\
                                           bottom: 10px;\
                                           left: 50%;\
+                                          -ms-transform: translateX(-50%);\
+                                          -moz-transform: translateX(-50%);\
+                                          -webkit-transform: translateX(-50%);\
                                           transform: translateX(-50%);\
                                           box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .5);\
                                           transition: .3s ease}' + 
                           '.wrapper .inner {\
-                                          height: 520px;\
-                                          padding-top: 64px;\
+                                          height: 390px;\
                                           overflow:auto;\
                                           background: #f2f2f2;\
                                           -ms-overflow-style: none;\
@@ -333,7 +312,7 @@
                                           position: relative;\
                                           margin-bottom: 42px}' + 
                           '.nav {\
-                                          position: fixed;\
+                                          position: relative;\
                                           top: 0;\
                                           left: 0;\
                                           right: 0;\
@@ -356,24 +335,39 @@
                                           margin: 0;\
                                           padding: 0;\
                                           list-style: none}' + 
-                          '.nudgeOptions {\
-                                          width: 25px;\
-                                          height: 20px;\
-                                          background-size: contain;\
-                                          margin: 16px;\
-                                          position: absolute;\
-                                          right: 12px;\
-                                          top:5px;\
-                                          margin-right: 0.3em;\
-                                          border-top: 0.2em solid #fff;\
-                                          border-bottom: 0.2em solid #fff;}' + 
-                          '.nudgeOptions:before {\
-                                          content: "";\
-                                          position: absolute;\
-                                          top: 0.3em;\
-                                          left: 0px;\
-                                          width: 100%;\
-                                          border-top: 0.2em solid #fff;}' + 
+                          '.chatjsicon {\
+                                        position: absolute;\
+                                        width: 25px;\
+                                        height: 20px;\
+                                        border-radius: 50%;\
+                                        background: #ECECEC;\
+                                        border: 1px solid rgba(0,0,0,0.1);\
+                                        box-shadow:\
+                                          inset 0 5px 0 rgba(255,255,255,0.3),\
+                                          inset 0 -5px 0 rgba(180,180,180,0.1),\
+                                          0 0 10px rgba(0,0,0,0.1),\
+                                          0 3px 3px rgba(0,0,0,0.2);}' + 
+                          '.chatjsicon:after {\
+                                        content: "";\
+                                        width: 4px;\
+                                        height: 10px;\
+                                        border: 1px solid rgba(0,0,0,0.1);\
+                                        border-top: none;\
+                                        border-left: none;\
+                                        display: block;\
+                                        position: absolute;\
+                                        bottom: -4px;\
+                                        left: 60%;\
+                                        background: #E9E9E9;\
+                                        box-shadow: 0 5px 2px rgba(0,0,0,0.2);\
+                                        transform: skewY(35deg);\
+                                        -ms-transform: skewY(35deg);\
+                                        -moz-transform: skewY(35deg);\
+                                        -webkit-transform: skewY(35deg);}' +
+                            '.chatjsi {\
+                                        background: #EFEFEF;\
+                                        left: 17px;\
+                                        top: 19px;}'+ 
                           '.bottom,.bottom .input {\
                                         height: 64px;\
                                         background: #fff;\
@@ -396,9 +390,12 @@
                                         color: inherit;\
                                         transition: .3s ease}' + 
                           '.bottom {\
-                                        position: fixed;\
-                                        bottom: 0;\
-                                        right: 0}' + 
+                                          position: relative;\
+                                          bottom: 0;\
+                                          left: 0;\
+                                          right: 0;\
+                                          height: 64px;\
+                                          z-index: 100;}' + 
                           '.bottom .input {\
                                         border: none;\
                                         width: 80%;\
@@ -411,7 +408,7 @@
                                         -ms-overflow-style: none;\
                                         overflow: -moz-scrollbars-none}' + 
                           '.bottom .send {\
-                                      position: fixed;\
+                                      position: absolute;\
                                       height: 42.66666667px;\
                                       width: 42.66666667px;\
                                       border-radius: 50%;\
@@ -531,7 +528,6 @@
 
       createDOMstructure();
       addStyleSheets();
-
       /*// Bind the function for drag and drop  --buggy
       document.getElementById('wrapper').onmousedown = function () {
           _drag_init(this);
@@ -539,15 +535,19 @@
       };
       */
       window.messenger = new chat_messenger.Messenger();
-
       return messenger;
+  }
+  var minify = function(){
+      document.getElementById('wrapper').className+=' minified-wrapper';
+      document.getElementById('default-nav').className+=' minified-nav';    
   }
 
   var chat_messenger = {
     _createClass: _createClass,
     Messenger: Messenger,
     BuildHTML: BuildHTML,
-    init: init
+    init: init,
+    minify:minify
   }
 
   window.chatMessenger = chat_messenger;
