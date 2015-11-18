@@ -4,7 +4,7 @@
     "dist": "dist/",
     "source": "src/"
   },
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple chat plugin for your web-apps",
   "main": "index.js",
   "scripts": {
