@@ -135,8 +135,29 @@
         sendMessage(input);
       });
       nav.addEventListener('click',function(e){
-        document.getElementById('wrapper').classList.toggle('minified-wrapper');
-        document.getElementById('default-nav').classList.toggle('minified-nav');                
+        var ele = document.getElementById('wrapper');
+        ele.classList.toggle('minified-wrapper');
+        document.getElementById('default-nav').classList.toggle('minified-nav');
+        if (!ele.classList.contains('minified-wrapper')) {
+            // do some stuff
+            window.oldOffsetLeft = ele.offsetLeft;
+            window.oldOffsetTop = ele.offsetTop; 
+            if(ele.offsetLeft>window.innerWidth-320){
+              ele.style.left = (window.innerWidth - 180) + 'px'
+            }
+            if(ele.offsetLeft<160){
+              ele.style.left = 180 + 'px' 
+            }
+            if(ele.offsetTop>window.innerHeight-520){
+              ele.style.top = (window.innerHeight - 540) + 'px'
+            }
+            if(ele.offsetTop<60){
+              ele.style.top = 40 + 'px' 
+            }
+        }else{
+              ele.style.left = (window.oldOffsetLeft) + 'px'
+              ele.style.top = (window.oldOffsetTop) + 'px'
+        }
       })
 
       input.addEventListener('keydown', function(e) {
@@ -220,7 +241,7 @@
   createDOMstructure =function(){
       // create and append warpper div to body
       var wrapperDiv = document.createElement('div');
-      wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper';
+      wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper minified-wrapper';
       wrapperDiv.setAttribute('data-intro', 'Collaspable box');
       wrapperDiv.setAttribute('data-position', 'left');
         /*--Now create and append nav to wrapperDiv--*/
@@ -228,7 +249,7 @@
         nav.id = 'nav'; nav.className = 'nav';
           // Now create and append default_navDiv to nav
           var default_navDiv = document.createElement('div');
-          default_navDiv.id='default-nav'; default_navDiv.className='default-nav';
+          default_navDiv.id='default-nav'; default_navDiv.className='default-nav minified-nav';
             // Now create and append main_navDiv to default_navDiv
             var main_navDiv = document.createElement('div');
             main_navDiv.className='main-nav';
@@ -276,6 +297,7 @@
                                           right:10px!important;\
                                           width: 60px!important;\
                                           height: 60px!important;\
+                                          cursor: move;\
                                           border-radius: 50px!important}' + 
                           '.bottom .input:focus,.bottom .send:focus {\
                                             outline: 0;}' + 
@@ -285,7 +307,6 @@
                           '.wrapper{\
                                           height: 520px;\
                                           width: 320px;\
-                                          overflow: hidden;\
                                           background-color: #fff;\
                                           position: fixed;\
                                           bottom: 10px;\
@@ -301,7 +322,8 @@
                                           overflow:auto;\
                                           background: #f2f2f2;\
                                           -ms-overflow-style: none;\
-                                          overflow: -moz-scrollbars-none}' +                 
+                                          overflow: -moz-scrollbars-none}' + 
+                          '.minified-wrapper .inner, .minified-wrapper .bottom{ display:none}'+               
                           '.nav .default-nav,.nav .default-nav .main-nav {\
                                           left: 0;\
                                           width: 100%;height: 64px;\
@@ -510,7 +532,7 @@
   function _move_elem(e) {
       x_pos = document.all ? window.event.clientX : e.pageX;
       y_pos = document.all ? window.event.clientY : e.pageY;
-      if (selected !== null) {
+      if (selected !== null && x_pos<(window.innerWidth-40) && x_pos>40 && y_pos<(window.innerHeight-40) && y_pos > 40) {
           selected.style.left = (x_pos - x_elem) + 'px';
           selected.style.top = (y_pos - y_elem) + 'px';
       }
@@ -528,12 +550,14 @@
 
       createDOMstructure();
       addStyleSheets();
-      /*// Bind the function for drag and drop  --buggy
-      document.getElementById('wrapper').onmousedown = function () {
-          _drag_init(this);
+      // Bind the function for drag and drop  --buggy
+      document.getElementById('wrapper').onmousedown = function (e) {
+          if(this.classList.contains('minified-wrapper')){
+            _drag_init(this);
+          }
           return false;
       };
-      */
+      
       window.messenger = new chat_messenger.Messenger();
       return messenger;
   }
