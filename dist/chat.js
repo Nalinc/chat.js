@@ -96,6 +96,28 @@
       var inner = document.getElementById("inner");
       var options = document.getElementById("chatjsicon");
       var nav = document.getElementById("nav");
+      var miniWrapper = document.getElementById("minified-wrapper").querySelector('#chatjsicon');
+      var resetChatBox = function(){
+        window.oldOffsetLeft = document.getElementById('minified-wrapper').offsetLeft;
+        window.oldOffsetTop = document.getElementById('minified-wrapper').offsetTop;
+        var ele = document.getElementById('wrapper');
+        ele.style.left = (window.oldOffsetLeft) + 'px'
+        ele.style.top = (window.oldOffsetTop) + 'px'
+ 
+        if(window.oldOffsetLeft>window.innerWidth-320){
+          ele.style.left = (window.innerWidth - 180) + 'px'
+        }
+        if(window.oldOffsetLeft<160){
+          ele.style.left = 180 + 'px' 
+        }
+        if(window.oldOffsetTop>window.innerHeight-520){
+          ele.style.top = (window.innerHeight - 540) + 'px'
+        }
+        if(window.oldOffsetTop<60){
+          ele.style.top = 40 + 'px' 
+        }
+        chatMessenger.collapseToggle();        
+      }
 
       var buildHTML = new BuildHTML();
 
@@ -134,30 +156,18 @@
       send.addEventListener('click', function (e) {
         sendMessage(input);
       });
-      nav.addEventListener('click',function(e){
-        var ele = document.getElementById('wrapper');
-        ele.classList.toggle('minified-wrapper');
-        document.getElementById('default-nav').classList.toggle('minified-nav');
-        if (!ele.classList.contains('minified-wrapper')) {
-            // do some stuff
-            window.oldOffsetLeft = ele.offsetLeft;
-            window.oldOffsetTop = ele.offsetTop; 
-            if(ele.offsetLeft>window.innerWidth-320){
-              ele.style.left = (window.innerWidth - 180) + 'px'
-            }
-            if(ele.offsetLeft<160){
-              ele.style.left = 180 + 'px' 
-            }
-            if(ele.offsetTop>window.innerHeight-520){
-              ele.style.top = (window.innerHeight - 540) + 'px'
-            }
-            if(ele.offsetTop<60){
-              ele.style.top = 40 + 'px' 
-            }
-        }else{
-              ele.style.left = (window.oldOffsetLeft) + 'px'
-              ele.style.top = (window.oldOffsetTop) + 'px'
-        }
+      nav.addEventListener('click',function(e){       
+          var eleMini = document.getElementById('minified-wrapper');
+          eleMini.style.left = window.oldOffsetLeft + 'px';
+          eleMini.style.top = window.oldOffsetTop + 'px';
+          chatMessenger.collapseToggle();
+      })
+      miniWrapper.addEventListener('click',function(e){
+        resetChatBox();
+      })
+
+      miniWrapper.addEventListener('touchend',function(){
+        resetChatBox();       
       })
 
       input.addEventListener('keydown', function(e) {
@@ -239,9 +249,17 @@
 
 
   createDOMstructure =function(){
+      //
+      var chatjsContainer = document.createElement('div');
+      chatjsContainer.className = 'chatjsContainer'; 
+
       // create and append warpper div to body
+      var minifiedWrapperDiv = document.createElement('div');
+      minifiedWrapperDiv.id= 'minified-wrapper';
+      minifiedWrapperDiv.className = 'minified-wrapper';
+
       var wrapperDiv = document.createElement('div');
-      wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper minified-wrapper';
+      wrapperDiv.id = 'wrapper';  wrapperDiv.className = 'wrapper';
       wrapperDiv.setAttribute('data-intro', 'Collaspable box');
       wrapperDiv.setAttribute('data-position', 'left');
         /*--Now create and append nav to wrapperDiv--*/
@@ -249,18 +267,23 @@
         nav.id = 'nav'; nav.className = 'nav';
           // Now create and append default_navDiv to nav
           var default_navDiv = document.createElement('div');
-          default_navDiv.id='default-nav'; default_navDiv.className='default-nav minified-nav';
+          default_navDiv.id='default-nav'; default_navDiv.className='default-nav';
             // Now create and append main_navDiv to default_navDiv
             var main_navDiv = document.createElement('div');
             main_navDiv.className='main-nav';
               // Now create and append nudge_optionsDiv to main_navDiv
               var nudge_optionsDiv = document.createElement('div');
-              nudge_optionsDiv.id='chatjsicon'; nudge_optionsDiv.className='chatjsicon chatjsi';
-
+              nudge_optionsDiv.id='nudgeOptions'; nudge_optionsDiv.className='';
               main_navDiv.appendChild(nudge_optionsDiv);
+
+              var nudge_chatDiv = document.createElement('div');
+              nudge_chatDiv.id='chatjsicon'; nudge_chatDiv.className='chatjsicon chatjsi';
+              minifiedWrapperDiv.appendChild(nudge_chatDiv);
+
             default_navDiv.appendChild(main_navDiv)  
           nav.appendChild(default_navDiv)
         wrapperDiv.appendChild(nav);
+        
         /*--now create and append innerDiv to wrapperDiv--*/
         var innerDiv = document.createElement('div');
         innerDiv.id='inner';  innerDiv.className='inner';
@@ -287,28 +310,35 @@
           sendDiv.setAttribute('data-position', 'right');
 
           bottomDiv.appendChild(sendDiv);
-        wrapperDiv.appendChild(bottomDiv)
-      document.getElementsByTagName('body')[0].appendChild(wrapperDiv);
+        wrapperDiv.appendChild(bottomDiv);
+        chatjsContainer.appendChild(wrapperDiv);
+        chatjsContainer.appendChild(minifiedWrapperDiv);
+      document.getElementsByTagName('body')[0].appendChild(chatjsContainer);
   }
   addStyleSheets = function(){
 
       //string containg nudge styles
-      var nudgeStyles = '.minified-wrapper{\
-                                          right:10px!important;\
-                                          width: 60px!important;\
-                                          height: 60px!important;\
+      var nudgeStyles = '.chatjsContainer .minified-wrapper{\
+                                          background-color: #b7170b;\
+                                          width: 60px;\
+                                          height: 60px;\
+                                          position: fixed;\
+                                          bottom: 30px;\
+                                          display:block;\
+                                          left: 48%;\
                                           cursor: move;\
-                                          border-radius: 50px!important}' + 
-                          '.bottom .input:focus,.bottom .send:focus {\
+                                          border-radius: 50px}' + 
+                          '.chatjsContainer .bottom .input:focus,.chatjsContainer .bottom .send:focus {\
                                             outline: 0;}' + 
                           '*{ box-sizing: border-box }' + 
-                          '.bottom .send:hover,.nav .default-nav .main-nav .options:hover,.nav .default-nav .main-nav .toggle:hover{\
+                          '.chatjsContainer .bottom .send:hover,.chatjsContainer .nav .default-nav .main-nav .options:hover,.chatjsContainer .nav .default-nav .main-nav .toggle:hover{\
                                             cursor: pointer;}' + 
-                          '.wrapper{\
+                          '.chatjsContainer .wrapper{\
                                           height: 520px;\
                                           width: 320px;\
                                           background-color: #fff;\
                                           position: fixed;\
+                                          display:none;\
                                           bottom: 10px;\
                                           left: 50%;\
                                           -ms-transform: translateX(-50%);\
@@ -317,33 +347,32 @@
                                           transform: translateX(-50%);\
                                           box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .5);\
                                           transition: .3s ease}' + 
-                          '.wrapper .inner {\
+                          '.chatjsContainer .wrapper .inner {\
                                           height: 390px;\
                                           overflow:auto;\
                                           background: #f2f2f2;\
                                           -ms-overflow-style: none;\
                                           overflow: -moz-scrollbars-none}' + 
-                          '.minified-wrapper .inner, .minified-wrapper .bottom{ display:none}'+               
-                          '.nav .default-nav,.nav .default-nav .main-nav {\
+                          '.chatjsContainer .minified-wrapper .inner,.chatjsContainer .minified-wrapper .bottom{ display:none}'+
+                          '.chatjsContainer .nav .default-nav,.chatjsContainer .nav .default-nav .main-nav {\
                                           left: 0;\
                                           width: 100%;height: 64px;\
                                           transition: .3s ease;\
                                           top: 0}' + 
-                          '.wrapper .inner .content {\
+                          '.chatjsContainer .wrapper .inner .content {\
                                           padding: 10.66666667px;\
                                           position: relative;\
                                           margin-bottom: 42px}' + 
-                          '.nav {\
+                          '.chatjsContainer .nav {\
                                           position: relative;\
                                           top: 0;\
                                           left: 0;\
                                           right: 0;\
+                                          cursor:pointer;\
                                           height: 64px;\
                                           z-index: 100;\
                                           transition: .3s ease}' + 
-                          '.nav .minified-nav {\
-                                          border-radius: 50px}' + 
-                          '.nav .default-nav {\
+                          '.chatjsContainer .nav .default-nav {\
                                           position: absolute;\
                                           z-index: 110;\
                                           background-color: #b7170b;\
@@ -352,24 +381,25 @@
                                           -webkit-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
                                           -moz-box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1);\
                                           box-shadow: 0 3px 3px 0 rgba(50, 50, 50, .1)}' + 
-                          '.nav .default-nav .main-nav {\
+                          '.chatjsContainer .nav .default-nav .main-nav {\
                                           position: absolute;\
                                           margin: 0;\
                                           padding: 0;\
                                           list-style: none}' + 
-                          '.chatjsicon {\
+                          '.chatjsContainer .chatjsicon {\
                                         position: absolute;\
                                         width: 25px;\
                                         height: 20px;\
                                         border-radius: 50%;\
                                         background: #ECECEC;\
+                                        cursor:pointer;\
                                         border: 1px solid rgba(0,0,0,0.1);\
                                         box-shadow:\
                                           inset 0 5px 0 rgba(255,255,255,0.3),\
                                           inset 0 -5px 0 rgba(180,180,180,0.1),\
                                           0 0 10px rgba(0,0,0,0.1),\
                                           0 3px 3px rgba(0,0,0,0.2);}' + 
-                          '.chatjsicon:after {\
+                          '.chatjsContainer .chatjsicon:after {\
                                         content: "";\
                                         width: 4px;\
                                         height: 10px;\
@@ -386,22 +416,22 @@
                                         -ms-transform: skewY(35deg);\
                                         -moz-transform: skewY(35deg);\
                                         -webkit-transform: skewY(35deg);}' +
-                            '.chatjsi {\
+                          '.chatjsContainer .chatjsi {\
                                         background: #EFEFEF;\
                                         left: 17px;\
                                         top: 19px;}'+ 
-                          '.bottom,.bottom .input {\
+                          '.chatjsContainer .bottom,.chatjsContainer .bottom .input {\
                                         height: 64px;\
                                         background: #fff;\
                                         left: 0}' + 
-                          '.nav .default-nav .main-nav .main-nav-item {\
+                          '.chatjsContainer .nav .default-nav .main-nav .main-nav-item {\
                                         float: left;\
                                         height: 64px;\
                                         margin-right: 50px;\
                                         position: relative;\
                                         line-height: 64px;\
                                         transition: .3s ease}' + 
-                          '.nav .default-nav .main-nav .main-nav-item .main-nav-item-link {\
+                          '.chatjsContainer .nav .default-nav .main-nav .main-nav-item .main-nav-item-link {\
                                         display: block;\
                                         position: relative;\
                                         height: 64px;\
@@ -411,14 +441,14 @@
                                         text-decoration: none;\
                                         color: inherit;\
                                         transition: .3s ease}' + 
-                          '.bottom {\
+                          '.chatjsContainer .bottom {\
                                           position: relative;\
                                           bottom: 0;\
                                           left: 0;\
                                           right: 0;\
                                           height: 64px;\
                                           z-index: 100;}' + 
-                          '.bottom .input {\
+                          '.chatjsContainer .bottom .input {\
                                         border: none;\
                                         width: 80%;\
                                         position: absolute;\
@@ -429,7 +459,7 @@
                                         font-weight: 300;\
                                         -ms-overflow-style: none;\
                                         overflow: -moz-scrollbars-none}' + 
-                          '.bottom .send {\
+                          '.chatjsContainer .bottom .send {\
                                       position: absolute;\
                                       height: 42.66666667px;\
                                       width: 42.66666667px;\
@@ -439,7 +469,7 @@
                                       color: #fff;\
                                       bottom: 10.66666667px;\
                                       right: 10.66666667px}' + 
-                          '.bottom .send:before {\
+                          '.chatjsContainer .bottom .send:before {\
                                       content: "";\
                                       background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/104946/ic_send_white_48dp.png) center center no-repeat;\
                                       background-size: 25.6px;\
@@ -448,17 +478,17 @@
                                       left: 0;\
                                       right: 0;\
                                       bottom: 0}' + 
-                          '.message-wrapper {\
+                          '.chatjsContainer .message-wrapper {\
                                       position: relative;\
                                       overflow: hidden;\
                                       width: 100%;\
                                       margin: 10.66666667px 0;\
                                       padding: 10.66666667px 0}' + 
-                          '.message-wrapper .circle-wrapper {\
+                          '.chatjsContainer .message-wrapper .circle-wrapper {\
                                       height: 42.66666667px;\
                                       width: 42.66666667px;\
                                       border-radius: 50%}' + 
-                          '.message-wrapper .text-wrapper {\
+                          '.chatjsContainer .message-wrapper .text-wrapper {\
                                       padding: 10.66666667px;\
                                       min-height: 42.66666667px;\
                                       width: 60%;\
@@ -468,45 +498,45 @@
                                       font-weight: 300;\
                                       position: relative;\
                                       opacity: 0}' + 
-                          '.message-wrapper .text-wrapper:before {\
+                          '.chatjsContainer .message-wrapper .text-wrapper:before {\
                                       content: "";\
                                       width: 0;\
                                       height: 0;\
                                       border-style: solid}' + 
-                          '.message-wrapper.them .circle-wrapper,.message-wrapper.them .text-wrapper {\
+                          '.chatjsContainer .message-wrapper.them .circle-wrapper,.chatjsContainer .message-wrapper.them .text-wrapper {\
                                       background: #b7170b;\
                                       float: left;\
                                       color: #fff}' + 
-                          '.message-wrapper.them .text-wrapper:before {\
+                          '.chatjsContainer .message-wrapper.them .text-wrapper:before {\
                                       border-width: 0 10px 10px 0;\
                                       border-color: transparent #b7170b transparent transparent;\
                                       position: absolute;\
                                       top: 0;\
                                       left: -9px}' + 
-                          '.message-wrapper.me .circle-wrapper,.message-wrapper.me .text-wrapper {\
+                          '.chatjsContainer .message-wrapper.me .circle-wrapper,.chatjsContainer .message-wrapper.me .text-wrapper {\
                                       background: #ff5722;\
                                       float: right;\
                                       color: #333}' + 
-                          '.message-wrapper.me .text-wrapper {\
-                                      background: #fff !important;\
+                          '.chatjsContainer .message-wrapper.me .text-wrapper {\
+                                      background: #fff ;\
                                       word-wrap: break-word;}' + 
-                          '.message-wrapper.me .text-wrapper:before {\
+                          '.chatjsContainer .message-wrapper.me .text-wrapper:before {\
                                       border-width: 10px 10px 0 0;\
                                       border-color: #fff transparent transparent;\
                                       position: absolute;\
                                       top: 0;\
                                       right: -9px}' + 
-                          '.animated {\
+                          '.chatjsContainer .animated {\
                                       -webkit-animation-duration: 1s;\
                                       animation-duration: 1s;\
                                       -webkit-animation-fill-mode: both;\
                                       animation-fill-mode: both}' + 
-                          '.fadeIn {\
+                          '.chatjsContainer .fadeIn {\
                                       -webkit-animation-name: fadeIn;\
                                       animation-name: fadeIn}' + 
                           '@-webkit-keyframes fadeIn {0% {  opacity: 0 } 100% { opacity: 1 }}'+
-                          '.wrapper .inner::-webkit-scrollbar { width: 0!important}' +
-                          '.bottom .input::-webkit-scrollbar { width: 0!important}'+
+                          '.chatjsContainer .wrapper .inner::-webkit-scrollbar { width: 0}' +
+                          '.chatjsContainer .bottom .input::-webkit-scrollbar { width: 0}'+
                           '@keyframes fadeIn { 0% {  opacity: 0 } 100% {  opacity: 1 }}';
 
       //create separate style tag for browser specific behaviour
@@ -530,8 +560,8 @@
 
   // Will be called when user dragging an element
   function _move_elem(e) {
-      x_pos = document.all ? window.event.clientX : e.pageX;
-      y_pos = document.all ? window.event.clientY : e.pageY;
+      x_pos = document.all ? parseInt(e.clientX) : parseInt(e.pageX);
+      y_pos = document.all ? parseInt(e.clientY) : parseInt(e.pageY);
       if (selected !== null && x_pos<(window.innerWidth-40) && x_pos>40 && y_pos<(window.innerHeight-40) && y_pos > 40) {
           selected.style.left = (x_pos - x_elem) + 'px';
           selected.style.top = (y_pos - y_elem) + 'px';
@@ -545,33 +575,58 @@
 
   document.onmousemove = _move_elem;
   document.onmouseup = _destroy;
+  document.ontouchend = _destroy;
 
   init = function(){
 
       createDOMstructure();
       addStyleSheets();
-      // Bind the function for drag and drop  --buggy
-      document.getElementById('wrapper').onmousedown = function (e) {
-          if(this.classList.contains('minified-wrapper')){
-            _drag_init(this);
-          }
-          return false;
-      };
-      
+      var ele = document.getElementById('minified-wrapper')
+
+      ele.addEventListener('mousedown',function(e){
+        if(e.target.id !== 'chatjsicon'){
+            _drag_init(e.target);
+        }
+        return false;
+      },false);
+
+    var touchobj = null // Touch object holder
+ 
+    ele.addEventListener('touchstart', function(e){
+        touchobj = e.changedTouches[0] // reference first touch point
+        if(touchobj.target.id !== 'chatjsicon'){
+          _drag_init(touchobj.target)
+        }
+        return false;
+    }, false)
+ 
+    ele.addEventListener('touchmove', function(e){
+        touchobj = e.changedTouches[0] // reference first touch point for this event
+        if(touchobj.target.id !== 'chatjsicon'){
+          _move_elem(touchobj)
+        }
+        return false;
+    }, false)      
+
       window.messenger = new chat_messenger.Messenger();
       return messenger;
   }
-  var minify = function(){
-      document.getElementById('wrapper').className+=' minified-wrapper';
-      document.getElementById('default-nav').className+=' minified-nav';    
+  var collapseToggle = function(){
+      var ele = document.getElementById('wrapper')
+      var eleMini = document.getElementById('minified-wrapper')
+      ele.style.display=(isVisible(ele))?'none':'block';
+      eleMini.style.display=(isVisible(eleMini))?'none':'block';
   }
-
+  var isVisible = function(element){
+    return (element.currentStyle ? element.currentStyle.display :
+                              getComputedStyle(element, null).display) !== 'none';    
+  }
   var chat_messenger = {
     _createClass: _createClass,
     Messenger: Messenger,
     BuildHTML: BuildHTML,
     init: init,
-    minify:minify
+    collapseToggle:collapseToggle
   }
 
   window.chatMessenger = chat_messenger;
