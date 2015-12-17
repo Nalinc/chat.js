@@ -55,47 +55,33 @@
     Simple chat plugin for your web-apps.
 </p>
 
-<div id="gotchya" class="chardinjs-show-element chardinjs-relative-position">Got it</div>
 <div class="credits">
 	Baked with <b>&lt;3</b> in <span class="lang">javascript</span>
 </div>
+
 <script type="text/javascript">
 	window.onload = function () {
 		var chat = chatMessenger.init()
-
-	    $('#wrapper').addClass('minified-wrapper');
-        $('#default-nav').addClass('minified-nav');
-
 		var flag = true;
-		$('#nav').on('click',function(e){
+		$('#chatjsicon').on('click',function(e){
 			if(flag){
-
 				setTimeout(function(){
 					$('body').chardinJs('start');
 					$('#gotchya').show();
 					flag = false;
 				},1000)				
-
 	            setTimeout(function () {
 	               chat.recieve('Hello there!');
 	            }, 1500);
-
 	            setTimeout(function () {
-	               chat.recieve('Do you like this? If so check out more on my page...');
+	               chat.recieve('Do you like this? If so check out more on my GitHub page...');
 	            }, 5000);
-
 	            setTimeout(function () {
-	               chat.recieve('Or maybe just give it a like!');
+	               chat.recieve('Or maybe just give it a Stargazer :)');
 	            }, 7500);
-
 			}
         });
-		
-		$('#gotchya').on('click',function(){
-			 $('body').data('chardinJs').toggle();
-			 $('#gotchya').hide();
-		})
-        
+		       
 	};	
 </script>
 
