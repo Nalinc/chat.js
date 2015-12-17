@@ -416,7 +416,7 @@
                                         -ms-transform: skewY(35deg);\
                                         -moz-transform: skewY(35deg);\
                                         -webkit-transform: skewY(35deg);}' +
-                            '.chatjsContainer .chatjsi {\
+                          '.chatjsContainer .chatjsi {\
                                         background: #EFEFEF;\
                                         left: 17px;\
                                         top: 19px;}'+ 
@@ -575,6 +575,7 @@
 
   document.onmousemove = _move_elem;
   document.onmouseup = _destroy;
+  document.ontouchend = _destroy;
 
   init = function(){
 
@@ -587,45 +588,25 @@
             _drag_init(e.target);
         }
         return false;
-      });
+      },false);
 
     var touchobj = null // Touch object holder
  
     ele.addEventListener('touchstart', function(e){
         touchobj = e.changedTouches[0] // reference first touch point
-/*       
-        http://www.javascriptkit.com/javatutors/touchevents.shtml
-         boxleft = parseInt(ele.offsetLeft) // get left position of box
-        boxtop = parseInt(ele.offsetTop) // get top position of box
-        startx = parseInt(touchobj.clientX) // get x coord of touch point
-        starty = parseInt(touchobj.clientY) // get y coord of touch point
-*/
         if(touchobj.target.id !== 'chatjsicon'){
           _drag_init(touchobj.target)
         }
-        e.preventDefault() // prevent default click behavior
+        return false;
     }, false)
  
     ele.addEventListener('touchmove', function(e){
         touchobj = e.changedTouches[0] // reference first touch point for this event
-/*        var distX = parseInt(touchobj.clientX) - startx // calculate dist traveled by touch point
-        var distY = parseInt(touchobj.clientY) - starty // calculate dist traveled by touch point
-
-//        console.log(startx+"--"+dist+"--"+boxleft)
-        // move box according to starting pos plus dist
-        // with lower limit 0 and upper limit 380 so it doesn't move outside track:
-  //      console.log(( (boxleft + dist > 380)? 380 : (boxleft + dist < 0)? 0 : boxleft + dist ) + 'px')
-        ele.style.left =  (boxleft + distX ) + 'px';
-        ele.style.top =  (boxtop + distY ) + 'px';*/
         if(touchobj.target.id !== 'chatjsicon'){
           _move_elem(touchobj)
         }
-        e.preventDefault()
+        return false;
     }, false)      
-
-    ele.addEventListener('touchend', function(e){
-      _destroy();
-    })
 
       window.messenger = new chat_messenger.Messenger();
       return messenger;
