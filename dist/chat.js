@@ -96,6 +96,7 @@
       var inner = document.getElementById("inner");
       var options = document.getElementById("chatjsicon");
       var nav = document.getElementById("nav");
+      var dotsDiv = document.getElementById("menudots");
       var miniWrapper = document.getElementById("minified-wrapper").querySelector('#chatjsicon');
       var resetChatBox = function(){
         window.oldOffsetLeft = document.getElementById('minified-wrapper').offsetLeft;
@@ -168,6 +169,9 @@
 
       miniWrapper.addEventListener('touchend',function(){
         resetChatBox();       
+      })
+      dotsDiv.addEventListener('click',function(e){
+        e.stopPropagation();
       })
 
       input.addEventListener('keydown', function(e) {
@@ -273,7 +277,19 @@
             main_navDiv.className='main-nav';
               // Now create and append nudge_optionsDiv to main_navDiv
               var nudge_optionsDiv = document.createElement('div');
-              nudge_optionsDiv.id='nudgeOptions'; nudge_optionsDiv.className='';
+              nudge_optionsDiv.id='nudgeOptions'; nudge_optionsDiv.className='nudgeOptions';
+                // Now create and append label to nudge_optionsDiv
+                var label = document.createElement('label');
+                label.htmlFor = 'menucheckbox';
+                  // Now create and append spanEle to label
+                  var spanEle = document.createElement('span');
+                    // Now create and append menuDiv to spanEle
+                    var menuDiv = document.createElement('div');
+                    menuDiv.id='menudots'; menuDiv.className='menuButton';
+                    spanEle.appendChild(menuDiv)
+                  label.appendChild(spanEle) 
+                nudge_optionsDiv.appendChild(label)
+
               main_navDiv.appendChild(nudge_optionsDiv);
 
               var nudge_chatDiv = document.createElement('div');
@@ -288,10 +304,37 @@
         var innerDiv = document.createElement('div');
         innerDiv.id='inner';  innerDiv.className='inner';
 
+          //Now create and append sidebarDiv to innerDiv
+          var sidebarDiv = document.createElement('div');
+          sidebarDiv.id='sidebar'; sidebarDiv.className='sidebar';
+
+            //Now create and append sidenav to sidebarDiv
+            var menuBox = document.createElement('input');
+            menuBox.id='menucheckbox'; menuBox.type = "checkbox";
+            sidebarDiv.appendChild(menuBox);
+
+            //Now create and append menuBox to sidebarDiv
+            var sidenav = document.createElement('ul');
+            sidenav.id='sidenav'; sidenav.className='sidenav';
+              var menuItems = ["Lobby","Settings","Minimize","About"];
+              //Now create and item li to sidenav
+              for(var i=0;i<4;i++){
+                var liItem = document.createElement('li');
+                  var aTag = document.createElement('a');
+                  aTag.href='#'; aTag.innerHTML = "<b>"+menuItems[i]+"</b>"
+                  liItem.appendChild(aTag)
+                sidenav.appendChild(liItem)       
+              }
+
+            sidebarDiv.appendChild(sidenav);
+
           //Now create and append contentDiv to innerDiv
           var contentDiv = document.createElement('div');
           contentDiv.id='content'; contentDiv.className='content';
+          innerDiv.appendChild(sidebarDiv); 
+
           innerDiv.appendChild(contentDiv);  
+        
         wrapperDiv.appendChild(innerDiv);
         /*--Now create and append bottomDiv to wrapperDiv--*/
         var bottomDiv = document.createElement('div');
@@ -332,7 +375,7 @@
                                             outline: 0;}' + 
                           '*{ box-sizing: border-box }' + 
                           '.chatjsContainer .bottom .send:hover,.chatjsContainer .nav .default-nav .main-nav .options:hover,.chatjsContainer .nav .default-nav .main-nav .toggle:hover{\
-                                            cursor: pointer;}' + 
+                                            cursor: pointer;}' +
                           '.chatjsContainer .wrapper{\
                                           height: 520px;\
                                           width: 320px;\
@@ -386,6 +429,58 @@
                                           margin: 0;\
                                           padding: 0;\
                                           list-style: none}' + 
+                          '.chatjsContainer .menuButton {\
+                                          position: relative;\
+                                          display: inline-block;\
+                                          cursor: pointer;\
+                                          border: 2px solid #fff;\
+                                          border-radius: 2px;\
+                                          height: 40px;\
+                                          width: 40px;\
+                                          top:15px;\
+                                          left:15px;}' +
+                          '.chatjsContainer #menudots:before {\
+                                          position: absolute;\
+                                          content:"";\
+                                          border-top: 6px solid #fff; \
+                                          border-bottom: 17px double #fff;\
+                                          height: 5px;\
+                                          width:30px;\
+                                          top: 4px;\
+                                          right:3px;}' +
+                          '.chatjsContainer #menudots:after {\
+                                        position: absolute;\
+                                        content:"";\
+                                        border-left: 6px solid #b7170b;\
+                                        border-right: 6px solid #b7170b;\
+                                        height: 28px;\
+                                        width:6px;\
+                                        top: 4px;\
+                                        left:9px;}' +
+                          '.chatjsContainer #menucheckbox { display: none; }' +
+                          '.chatjsContainer .sidenav {\
+                                        width: 150px;\
+                                        z-index:10;\
+                                        padding: 70px 0 0 10px;\
+                                        position: absolute;\
+                                        left: 0;\
+                                        top: 0;\
+                                        bottom: 0;}' +
+                          '.chatjsContainer .sidenav li {\
+                                        list-style-type: none;\
+                                        transition: all .5s;\
+                                        padding-left:20px;}' +
+                          '.chatjsContainer #menucheckbox:checked ~ .sidenav li:hover { background: #ff5722; }' +
+                          '.chatjsContainer .sidenav a { color: white; text-decoration: none; }'+
+                          '.chatjsContainer .sidenav b {\
+                                        font: bold 12px/48px Roboto;\
+                                        display: block;\
+                                        opacity: 0;\
+                                        transform: translateX(50px);\
+                                        transition: all 0.4s;}'+
+                          '.chatjsContainer #menucheckbox:checked + .sidenav{\
+                                        background-color: #b7170b;}'+
+                          '.chatjsContainer #menucheckbox:checked ~ .sidenav b { opacity: 1; transform: translateX(0); }'+
                           '.chatjsContainer .chatjsicon {\
                                         position: absolute;\
                                         width: 25px;\
