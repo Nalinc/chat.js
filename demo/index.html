@@ -3,6 +3,7 @@
 <head>
 	<title></title>
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
 	<script type="text/javascript" src="../src/chat.js"></script>
 	<script type="text/javascript" src="scripts/chardinjs.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles/chardinjs.css">
@@ -62,6 +63,7 @@
 	window.onload = function () {
 		var chat = chatMessenger.init()
 
+    chat.connect();
 		var flag = true;
 		$('#chatjsicon').on('click',function(e){
 			if(flag){
