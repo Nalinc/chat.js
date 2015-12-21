@@ -63,7 +63,9 @@
 	window.onload = function () {
 		var chat = chatMessenger.init()
 
-    chat.connect();
+    	//connect to remote chat.js server
+    	chat.connect("http://chatjs-server.herokuapp.com");
+
 		var flag = true;
 		$('#chatjsicon').on('click',function(e){
 			if(flag){

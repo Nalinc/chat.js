@@ -155,6 +155,7 @@
 
       this.onConnect = function(host){
         socket = io.connect(host);
+        //to-do
       }
 
       send.addEventListener('click', function (e) {
