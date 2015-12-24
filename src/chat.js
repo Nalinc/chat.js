@@ -1,7 +1,7 @@
 (function() {
 'use strict';
 
-  var _createClass, Messenger, BuildHTML, init, createDOMstructure, addStyleSheets, io;
+  var _createClass, Messenger, BuildHTML, init, createDOMstructure, addStyleSheets, remotehost, socket, nsp, soc;
 
   _createClass = (function () { 
         function defineProperties(target, props) { 
@@ -43,8 +43,14 @@
       key: '_build',
       value: function _build(text, who) {
         var node = document.createElement("div");
-        node.className= this.messageWrapper + ' ' + this[who + 'Class']
-        node.innerHTML =  '<div class="' + this.circleWrapper + ' animated bounceIn"></div>\n              <div class="' + this.textWrapper + '">...</div>';
+        node.className = (who=='notification')?who:(this.messageWrapper + ' ' + who);
+          var circleWrapperDiv = document.createElement("div");
+          circleWrapperDiv.className= this.circleWrapper + ' animated bounceIn';
+            var textWrapperDiv = document.createElement("div");
+            textWrapperDiv.className = this.textWrapper;
+            textWrapperDiv.innerHTML = text;
+        node.appendChild(circleWrapperDiv)
+        node.appendChild(textWrapperDiv)
         return node;
       }
     }, {
@@ -57,15 +63,15 @@
       value: function them(text) {
         return this._build(text, 'them');
       }
+    }, {
+      key: 'notification',
+      value: function notification(text) {
+        return this._build(text, 'notification');
+      }
     }]);
 
     return BuildHTML;
   })();
-
-  function safeText(content, text) {
-    var ele = content.querySelector('.message-wrapper:last-child').querySelector('.text-wrapper');
-    ele.innerHTML = text;
-  }
 
   function animateText(content) {
     setTimeout(function () {
@@ -130,33 +136,54 @@
       this.them = 5; // and another one
 
       this.onRecieve = function (message) {
-        console.log('recieving: ', message.text);
-
         content.appendChild(buildHTML.them(message.text))
-        safeText(content, message.text);
         animateText(content);
 
         scrollBottom(inner);
         return console.log('Recieved: ' + message.text);
       };
       this.onSend = function (message) {
-        console.log('sending: ', message.text);
-
         content.appendChild(buildHTML.me(message.text))
-        safeText(content, message.text);
         animateText(content);
 
         scrollBottom(inner);
+        socket.emit("messageOut", {text: message.text, nsp:"/"+window.location.hostname});
+
         return console.log('Sent: ' + message.text);
       };
-      this.onDelete = function (message) {
-        return console.log('Deleted: ' + message.text);
+      this.onNotify = function (message) {
+        content.appendChild(buildHTML.notification(message.text))
+        scrollBottom(inner);
       };
 
       this.onConnect = function(host){
-        socket = io.connect(host);
-        //to-do
+        remotehost = host;
+
+        socket = io.connect(remotehost);
+        socket.emit('namespaceConnect',window.location.hostname)
+        //Socket connection
+        socket.on("connect",onSocketConnect)
+        // Socket disconnection
+        socket.on("userLeft", onUserDisconnect);
       }
+      //Socket Connected
+      function onSocketConnect(){
+        setTimeout(function(){
+          // Overiding default with custom namespace
+          soc = io.connect(remotehost+"/"+window.location.hostname);
+          // New player message received
+          soc.on("messageIn", onMessageIn);
+        },1000)
+      }
+      // Socket disconnected
+      function onUserDisconnect(user) {
+        chat_messenger.self.notify("Anonymous has left")
+      };
+      // On incoming Message
+      function onMessageIn(message) {
+        if(message.source!=socket.id)
+        chat_messenger.self.recieve(message.text)
+      };
 
       send.addEventListener('click', function (e) {
         sendMessage(input);
@@ -230,14 +257,21 @@
         }
       }
     }, {
-      key: 'delete',
-      value: function _delete(index) {
-        index = index || this.messageLength - 1;
+      key: 'notify',
+      value: function _notify() {
+        var text = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 
-        var deleted = this.messageLength.pop();
+        text = this.filter(text);
 
-        this.deletedList.push(deleted);
-        this.onDelete(deleted);
+        if (this.validate(text)) {
+          var message = {
+            user: this.me,
+            text: text,
+            time: new Date().getTime()
+          };
+
+          this.onNotify(message);
+        }
       }
     }, {
       key: 'filter',
@@ -254,7 +288,7 @@
       key: 'connect',
       value: function connect(host){
         if(io)
-          this.onConnect(host);
+          this.onConnect(host||"//chatjs-server.herokuapp.com");
         else
           alert('socket-io not available')  
       }
@@ -612,7 +646,8 @@
                                           border-radius: 2px;\
                                           font-weight: 300;\
                                           position: relative;\
-                                          opacity: 0}' + 
+                                          opacity: 0}' +
+                          '.chatjsContainer .notification {text-align:center}' +
                           '.chatjsContainer .message-wrapper .text-wrapper:before {\
                                           content: "";\
                                           width: 0;\

@@ -2,8 +2,8 @@
 <html>
 <head>
 	<title></title>
-	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.js"></script>
 	<script type="text/javascript" src="../src/chat.js"></script>
 	<script type="text/javascript" src="scripts/chardinjs.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="styles/chardinjs.css">
@@ -72,21 +72,16 @@
 
 				setTimeout(function(){
 					$('body').chardinJs('start');
-					$('#gotchya').show();
 					flag = false;
 				},1000)				
 
 	            setTimeout(function () {
-	               chat.recieve('Hello there!');
+	               chat.recieve('Hello there!<br/>Do you like this?');
 	            }, 1500);
 
 	            setTimeout(function () {
-	               chat.recieve('Do you like this? If so check out more on my GitHub page...');
-	            }, 5000);
-
-	            setTimeout(function () {
-	               chat.recieve('Or maybe just give it a Stargazer :)');
-	            }, 7500);
+	               chat.recieve('If so check out more on my GitHub page, Or maybe just give it a Stargazer :)');
+	            }, 2500);
 
 			}
         });
