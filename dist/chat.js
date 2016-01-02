@@ -127,8 +127,6 @@
 
       var buildHTML = new BuildHTML();
 
-      input.focus();
-
       this.messageList = [];
       this.deletedList = [];
 
@@ -193,6 +191,7 @@
           eleMini.style.left = window.oldOffsetLeft + 'px';
           eleMini.style.top = window.oldOffsetTop + 'px';
           chatMessenger.collapseToggle();
+          input.focus();
       })
       miniWrapper.addEventListener('click',function(e){
         resetChatBox();
@@ -451,7 +450,7 @@
                           '.chatjsContainer .wrapper .inner .content {\
                                           padding: 10.66666667px;\
                                           position: relative;\
-                                          margin-bottom: 42px}' + 
+                                          margin-bottom: 50px}' + 
                           '.chatjsContainer .nav {\
                                           position: relative;\
                                           top: 0;\
@@ -594,6 +593,7 @@
                                           position: relative;\
                                           bottom: 0;\
                                           left: 0;\
+                                          background-color: rgba(0,0,0,0.2);\
                                           right: 0;\
                                           height: 64px;\
                                           z-index: 100;}' + 
@@ -601,6 +601,7 @@
                                           border: none;\
                                           width: 80%;\
                                           position: absolute;\
+                                          background: transparent;\
                                           top: 0;\
                                           padding: 0 5%;\
                                           resize: none;\
@@ -669,7 +670,10 @@
                                           color: #333}' + 
                           '.chatjsContainer .message-wrapper.me .text-wrapper {\
                                           background: #fff ;\
-                                          word-wrap: break-word;}' + 
+                                          word-wrap: break-word;}' +
+                          '.chatjsContainer .message-wrapper.them .text-wrapper {\
+                                          background: #b7170b;\
+                                          word-wrap: break-word;}'+                                           
                           '.chatjsContainer .message-wrapper.me .text-wrapper:before {\
                                           border-width: 10px 10px 0 0;\
                                           border-color: #fff transparent transparent;\
@@ -687,7 +691,18 @@
                           '@-webkit-keyframes fadeIn {0% {  opacity: 0 } 100% { opacity: 1 }}'+
                           '.chatjsContainer .wrapper .inner::-webkit-scrollbar { width: 0}' +
                           '.chatjsContainer .bottom .input::-webkit-scrollbar { width: 0}'+
-                          '@keyframes fadeIn { 0% {  opacity: 0 } 100% {  opacity: 1 }}';
+                          '@keyframes fadeIn { 0% {  opacity: 0 } 100% {  opacity: 1 }}'+
+                          '@media only screen and (min-device-width: 320px) and (max-device-width: 640px){\
+                                      .chatjsContainer .wrapper{\
+                                          width:100%;\
+                                          height:100%;\
+                                          top:0 !important;\
+                                          left:50% !important}\
+                                      .chatjsContainer .nav {width:100%}\
+                                      .chatjsContainer .wrapper .inner, .chatjsContainer .wrapper .sidenav{\
+                                          height:80%;}\
+                                      .chatjsContainer .wrapper .bottom {\
+                                          bottom:70px;}}';
 
       //create separate style tag for browser specific behaviour
       var style = document.createElement('style');
