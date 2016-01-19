@@ -133,12 +133,12 @@
       this.me = 1; // completely arbitrary id
       this.them = 5; // and another one
 
-      this.onRecieve = function (message) {
+      this.onReceive = function (message) {
         content.appendChild(buildHTML.them(message.text))
         animateText(content);
 
         scrollBottom(inner);
-        return console.log('Recieved: ' + message.text);
+        return console.log('Received: ' + message.text);
       };
       this.onSend = function (message) {
         content.appendChild(buildHTML.me(message.text))
@@ -180,7 +180,7 @@
       // On incoming Message
       function onMessageIn(message) {
         if(message.source!=socket.id)
-        chat_messenger.self.recieve(message.text)
+        chat_messenger.self.receive(message.text)
       };
 
       send.addEventListener('click', function (e) {
@@ -237,8 +237,8 @@
         }
       }
     }, {
-      key: 'recieve',
-      value: function recieve() {
+      key: 'receive',
+      value: function receive() {
         var text = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 
         text = this.filter(text);
@@ -252,7 +252,7 @@
 
           this.messageList.push(message);
 
-          this.onRecieve(message);
+          this.onReceive(message);
         }
       }
     }, {

@@ -10,7 +10,7 @@
 
 #Things to remember
 
-- Run the ```grunt build``` task before commiting changes in ```src/chat.js```.
+- Run the ```grunt build``` task before committing changes in ```src/chat.js```.
 - Use tabs. No spaces.
 - Do not fix multiple issues in a single commit. Keep them one thing per commit so that they can be picked easily incase only few commits require to be merged.
 - Before submitting a patch, rebase your branch on upstream `master` to make life easier for the merger.
