@@ -33,7 +33,7 @@ window.onload = function () {
 ```
 Display incoming messages with
 ```js
-chat.recieve('Hello there!');
+chat.receive('Hello there!');
 ```
 
 More documentation coming soon.
