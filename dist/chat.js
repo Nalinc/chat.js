@@ -161,8 +161,6 @@
         socket.emit('namespaceConnect',window.location.hostname)
         //Socket connection
         socket.on("connect",onSocketConnect)
-        // Socket disconnection
-        socket.on("userLeft", onUserDisconnect);
       }
       //Socket Connected
       function onSocketConnect(){
@@ -171,6 +169,8 @@
           soc = io.connect(remotehost+"/"+window.location.hostname);
           // New player message received
           soc.on("messageIn", onMessageIn);
+          // When a user leaves within same nsp
+          soc.on("userLeft", onUserDisconnect);
         },1000)
       }
       // Socket disconnected
