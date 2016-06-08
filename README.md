@@ -3,6 +3,8 @@ chat.js [![npm version](https://badge.fury.io/js/chat.js.svg)](http://badge.fury
 *Simple chat plugin for your web-apps.*
 ***
 
+**Deprecated**: Latest one moved to [github.com/chatjs/chat.js](https://github.com/chatjs/chat.js)
+
 ### [DEMO](http://nalinc.github.io/chat.js)
 
 Installation
